@@ -1,20 +1,18 @@
 ## Project Overview
+The project aims to create a robust data pipeline for obtaining economic data from EconDB.com, transforming it, storing it, and making it available for dashboarding and analysis.
 ![System](https://github.com/john-ml-dev/econdb_project/assets/78201996/b2e36f97-54a9-4bf1-8d68-799b0eee5b08)
 ~ **By _John Tamakloe_**
 ### Data Gathering
 
-- **Source**: Data is gathered from [econdb.com]([https://www.econdb.com/home]) using Scrapy.
-- **Reason for Choosing Scrapy**: Scrapy was chosen for its simplicity and effective handling of cookies.
-
+- **Source**: Data is gathered from [econdb.com]([https://www.econdb.com/home]). Econdb is a leading data service for economic indicators and the shipping industry.
 ### Scheduling
 
-- **Tool**: Airflow is used to schedule the scraping process.
+- **Tool**: Airflow is used to schedule the data fetching process.
 - Apache Airflow is used for orchestrating the workflow, managing task dependencies, scheduling, and monitoring the data pipeline.
 - Airflow handles the execution of each step in the pipeline, ensuring tasks are run in the correct order and handling retries and failures.
 - **Frequency**: The project is scheduled to run daily.
 
 ### Containerization
-
 - **Tool**: Docker is used to containerize the project.
 - **Reason for Choosing Docker**: Docker simplifies the setup and ensures replicability of the project across different operating systems.
 -------------
@@ -24,7 +22,7 @@ This document outlines the setup and usage instructions for the **econdb_project
 # Setup Instructions
 
 Create an account with econdb by visiting https://www.econdb.com/home
-After creating your account locate your API_TOKEN by visiting https://www.econdb.com/account/keys/
+After creating your account locate your `API_TOKEN` by visiting https://www.econdb.com/account/keys/
 
 ## Directory Structure
 
@@ -91,7 +89,7 @@ Purpose: Essential for orchestrating the sequence and dependency of tasks in dat
 
 `plugins/`
 Description: Directory for custom plugins to extend Airflow’s functionality.
-functions are implemented here and imported in `main.py`
+Functions for various tasks are implemented here in a dedicated .py file and imported in `main.py`
 `output/`
 Purpose: Directory for saving output files
 `input/`
@@ -100,7 +98,7 @@ Purpose: Contains countries dataset as `countries.csv`
 ## 3. Build the Docker Image
 Build the Docker image with the tag `pandas_airflow:latest`: by running the command
 ```sh
-docker compose build --tag pandas_airflow:latest
+docker compose build --tag pandas_airflow:latest .
 ```
 This allows docker to install pandas in airflow since airflow does not comes with pandas by default. 
 To use any other package or library, locate the `requirements.txt` and add package name to the list or run 
