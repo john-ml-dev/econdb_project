@@ -120,8 +120,8 @@ docker compose up -d
 Open your web browser and go to http://localhost:8080 to access the Airflow UI.
 
 
-## 8. Connect to PostgreSQL
+## 7. Connect to PostgreSQL
 Use a SQL tool such as DBeaver or Valentina Studio to connect to the PostgreSQL database. Enter the connection details as specified above.
 
-## 9. Verify S3 Upload
+## 8. Verify S3 Upload
 Verify that the fils have been successfully uploaded to s3 bucket.
