@@ -3,6 +3,7 @@ from zip_directory_util import zip_directory
 from upload_s3_util import upload_directory_to_s3 
 from comodity import run_fetch_comodity  
 from economy import fetch_gdp_data 
+from global_money import fetch_global_money
 
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator 
@@ -79,7 +80,15 @@ load_to_s3 = PythonOperator(
     dag = dag
 )   
 
+# fetch global money
+global_money = PythonOperator(
+    task_id="global_money",
+    python_callable=fetch_global_money,
+    op_kwargs= {"file_path" : "opt/airflow/output/csv/global_money_supply.csv"},
+    dag = dag
+)
 
 fetch_comodity >> load_to_db
 economy_data >> load_to_db
+global_money >> load_to_db
 load_to_db >> zip_files >> load_to_s3 
