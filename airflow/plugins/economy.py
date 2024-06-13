@@ -1,5 +1,6 @@
-import pandas as pd 
-import os  
+import pandas as pd
+import os
+
 
 def fetch_gdp_data():
     """
@@ -25,11 +26,11 @@ def fetch_gdp_data():
         "POP" : "Population"
     """
     # load countries data from input directory
-    df = pd.read_csv("/opt/airflow/input/countries.csv", names=["country","code"])
+    df = pd.read_csv("/opt/airflow/input/countries.csv", names=["country", "code"])
     # extract codes as list
-    codes= list(df["code"])
+    codes = list(df["code"])
     # various indicators(indexes)
-    indexes = ["GDEBT","PPI","CONF","RGDP",'IP',"RETA","RPUC","RGFCF","CPI"]
+    indexes = ["GDEBT", "PPI", "CONF", "RGDP", 'IP', "RETA", "RPUC", "RGFCF", "CPI"]
 
     # loop over each item in indexes
     for item in indexes:
@@ -37,9 +38,9 @@ def fetch_gdp_data():
         # create empty dataframe to hold results
         result = pd.DataFrame()
         # create empty list to hold country codes that produced data
-        col_name =[]
+        col_name = []
         try:
-            
+
             # loop over codes in country codes
             for code in codes:
                 # set the ticker for example PPIUS -> Producer Price Index for US
@@ -47,8 +48,8 @@ def fetch_gdp_data():
                 try:
                     # download data for ticker
                     df = pd.read_csv(
-                    f'https://www.econdb.com/api/series/{ticker}/?format=csv&token={os.getenv("API_TOKEN")}',
-                    index_col='Date', parse_dates=['Date'])
+                        f'https://www.econdb.com/api/series/{ticker}/?format=csv&token={os.getenv("API_TOKEN")}',
+                        index_col='Date', parse_dates=['Date'])
                     # check the number of items in the downloaded data
                     if len(df) != 0:
                         # append the code to column names if data is not empty
@@ -70,5 +71,4 @@ def fetch_gdp_data():
         except Exception as e:
             print(e)
         # write data to csv
-        result.to_csv(f"/opt/airflow/output/csv/{item}.csv")    
-        
+        result.to_csv(f"/opt/airflow/output/csv/{item}.csv")
